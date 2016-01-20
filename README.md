@@ -35,6 +35,7 @@ You can then retrieve the paths the user navigated to by using
 
 ```elixir
 NavigationHistory.last_path(conn) # will return the last navigated path or nil
+NavigationHistory.last_path(conn, 1) # will return the second last navigated path
 NavigationHistory.last_path(conn, default: "/") # will return the last path or "/"
 NavigationHistory.last_paths(conn) # will return a list of the last navigated paths
 ```
