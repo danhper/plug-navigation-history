@@ -45,7 +45,7 @@ a helper like this
 
 ```elixir
 def redirect_back(conn, opts \\ []) do
-  Phoenix.Controller.redirect to: NavigationHistory.last_path(conn, opts)
+  Phoenix.Controller.redirect(conn, to: NavigationHistory.last_path(conn, opts))
 end
 
 # you can then write
