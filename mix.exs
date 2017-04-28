@@ -1,7 +1,7 @@
 defmodule NavigationHistory.Mixfile do
   use Mix.Project
 
-  @version "0.2.0"
+  @version "0.2.1"
 
   def project do
     [app: :navigation_history,
@@ -9,13 +9,13 @@ defmodule NavigationHistory.Mixfile do
      version: @version,
      source_url: "https://github.com/tuvistavie/plug-navigation-history",
      homepage_url: "https://github.com/tuvistavie/plug-navigation-history",
-     package: package,
+     package: package(),
      elixir: "~> 1.0",
-     description: description,
+     description: description(),
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
      license: "MIT",
-     deps: deps]
+     deps: deps()]
   end
 
   defp package do
@@ -35,7 +35,7 @@ defmodule NavigationHistory.Mixfile do
 
   defp deps do
     [{:plug, "~> 1.1"},
-     {:earmark, "~> 0.2", only: :dev},
+     {:earmark, "~> 1.2", only: :dev},
      {:ex_doc, "~> 0.11", only: :dev}]
   end
 end
