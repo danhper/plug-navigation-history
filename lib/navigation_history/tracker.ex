@@ -41,21 +41,27 @@ defmodule NavigationHistory.Tracker do
   end
 
   def call(conn, opts) do
-    if register?(conn, opts),
-      do: put_previous_path(conn, conn.request_path, opts),
+    path = path_and_query(conn)
+    method = conn.method
+    if register?(method, path, opts),
+      do: put_previous_path(conn, path, opts),
       else: conn
   end
 
-  defp register?(conn, opts),
-    do: valid_method?(conn, opts) and valid_path?(conn, opts)
+  defp path_and_query(conn) do
+    query_portion = if (conn.query_string == ""), do: "", else: "?#{conn.query_string}"
+    conn.request_path <> query_portion
+  end
 
-  defp valid_method?(conn, opts),
-    do: conn.method in opts[:methods]
+  defp register?(method, path, opts),
+    do: valid_method?(method, opts) and valid_path?(path, opts)
 
-  defp valid_path?(conn, opts) do
+  defp valid_method?(method, opts), do: method in opts[:methods]
+
+  defp valid_path?(path, opts) do
     if opts[:included_paths],
-      do: path_matches_any?(conn.request_path, opts[:included_paths]),
-      else: not path_matches_any?(conn.request_path, opts[:excluded_paths])
+      do: path_matches_any?(path, opts[:included_paths]),
+      else: not path_matches_any?(path, opts[:excluded_paths])
   end
   defp path_matches_any?(path, matches),
     do: Enum.any?(matches, &(path_match?(path, &1)))
