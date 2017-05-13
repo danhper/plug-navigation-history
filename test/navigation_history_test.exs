@@ -36,6 +36,16 @@ defmodule NavigationHistoryTest do
     assert NavigationHistory.last_path(conn, 2, default: "/bar") == "/bar"
   end
 
+  test "path with query parameters" do
+    conn = conn(:get, "/foo?bar=baz") |> with_session
+    opts = NavigationHistory.Tracker.init([])
+    conn = NavigationHistory.Tracker.call(conn, opts)
+    conn = %{conn | request_path: "/admin/", query_string: "hi=there&another=value"}
+    conn = NavigationHistory.Tracker.call(conn, opts)
+    assert NavigationHistory.last_path(conn, 1) == "/foo?bar=baz"
+    assert NavigationHistory.last_path(conn) == "/admin/?hi=there&another=value"
+  end
+
   test "key" do
     conn = conn(:get, "/") |> with_session
     opts = NavigationHistory.Tracker.init([])
