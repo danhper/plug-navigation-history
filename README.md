@@ -1,4 +1,4 @@
-# NavigationHistory [![Build Status](https://travis-ci.org/tuvistavie/plug-navigation-history.svg)](https://travis-ci.org/tuvistavie/plug-navigation-history) [![Hex Version](http://img.shields.io/hexpm/v/navigation_history.svg?style=flat)](https://hex.pm/packages/navigation_history) [![Hex docs](http://img.shields.io/badge/hex.pm-docs-green.svg?style=flat)](https://hexdocs.pm/navigation_history/SecurePassword.html)
+# NavigationHistory [![Build Status](https://travis-ci.org/danhper/plug-navigation-history.svg)](https://travis-ci.org/danhper/plug-navigation-history) [![Hex Version](http://img.shields.io/hexpm/v/navigation_history.svg?style=flat)](https://hex.pm/packages/navigation_history) [![Hex docs](http://img.shields.io/badge/hex.pm-docs-green.svg?style=flat)](https://hexdocs.pm/navigation_history/SecurePassword.html)
 
 A plug to keep track of user navigation history using sessions.
 This can be useful for example to redirect the user back to the previous page,
