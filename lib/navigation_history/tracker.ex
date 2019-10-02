@@ -23,6 +23,9 @@ defmodule NavigationHistory.Tracker do
         It can also be passed to `last_path` and `last_paths` to retrieve the paths for the
         relevant key.
         Defaults to `"default"`.
+    * `accept_duplicates` - By default, if the same URL is repeated, it is ignored, unless this
+        option is set to `true`.
+        Defaults to `false`.
 
   ## Examples
 
@@ -38,6 +41,7 @@ defmodule NavigationHistory.Tracker do
     |> Keyword.put_new(:excluded_paths, [])
     |> Keyword.put_new(:methods, ~w(GET))
     |> Keyword.put_new(:history_size, 10)
+    |> Keyword.put_new(:accept_duplicates, false)
   end
 
   def call(conn, opts) do
@@ -73,8 +77,16 @@ defmodule NavigationHistory.Tracker do
 
   defp put_previous_path(conn, path, opts) do
     last_paths = NavigationHistory.last_paths(conn, opts)
-    paths = dequeue_path([path|last_paths], opts[:history_size])
+    paths = dequeue_path(prepend(path, last_paths, opts), opts[:history_size])
     NavigationHistory.Session.save_paths(conn, paths, opts)
+  end
+
+  defp prepend(new_path, last_paths, opts) do
+    if new_path == List.first(last_paths) && !opts[:accept_duplicates] do
+      last_paths
+    else
+      [new_path|last_paths]
+    end
   end
 
   defp dequeue_path(paths, history_size) when length(paths) > history_size,

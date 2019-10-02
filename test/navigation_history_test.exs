@@ -24,6 +24,36 @@ defmodule NavigationHistoryTest do
     assert NavigationHistory.last_paths(conn) == ["/foo", "/"]
   end
 
+  test "repeatedly putting path only puts unique path once" do
+    conn = conn(:get, "/") |> with_session
+    opts = NavigationHistory.Tracker.init([])
+    conn = NavigationHistory.Tracker.call(conn, opts)
+    assert NavigationHistory.last_path(conn) == "/"
+
+    conn = %{conn | request_path: "/foo"}
+    conn = NavigationHistory.Tracker.call(conn, opts)
+    conn = %{conn | request_path: "/foo"}
+    conn = NavigationHistory.Tracker.call(conn, opts)
+    conn = %{conn | request_path: "/foo"}
+    conn = NavigationHistory.Tracker.call(conn, opts)
+    assert NavigationHistory.last_path(conn) == "/foo"
+    assert NavigationHistory.last_paths(conn) == ["/foo", "/"]
+  end
+
+  test "repeatedly putting path with option puts path multiple times" do
+    conn = conn(:get, "/") |> with_session
+    opts = NavigationHistory.Tracker.init([accept_duplicates: true])
+    conn = NavigationHistory.Tracker.call(conn, opts)
+    assert NavigationHistory.last_path(conn) == "/"
+
+    conn = %{conn | request_path: "/foo"}
+    conn = NavigationHistory.Tracker.call(conn, opts)
+    conn = %{conn | request_path: "/foo"}
+    conn = NavigationHistory.Tracker.call(conn, opts)
+    assert NavigationHistory.last_path(conn) == "/foo"
+    assert NavigationHistory.last_paths(conn) == ["/foo", "/foo", "/"]
+  end
+
   test "last_path with index" do
     conn = conn(:get, "/") |> with_session
     opts = NavigationHistory.Tracker.init([])
