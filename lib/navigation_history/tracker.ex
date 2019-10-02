@@ -85,7 +85,7 @@ defmodule NavigationHistory.Tracker do
     if new_path == List.first(last_paths) && !opts[:accept_duplicates] do
       last_paths
     else
-      [path|last_paths]
+      [new_path|last_paths]
     end
   end
 
