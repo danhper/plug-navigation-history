@@ -11,7 +11,7 @@ Add `navigation_history` to your list of dependencies in `mix.exs`:
 
 ```elixir
 def deps do
-  [{:navigation_history, "~> 0.0"}]
+  [{:navigation_history, "~> 0.3"}]
 end
 ```
 
