@@ -71,6 +71,10 @@ There are a few options that can be used with the plug:
       It can also be passed to `last_path` and `last_paths` to retrieve the paths for the
       relevant key.
       Defaults to `"default"`.
+  * `accept_duplicates` - By default, if the same URL is repeated, it is ignored, unless this
+      option is set to `true`.
+      Defaults to `false`.
+
 
 ### Example
 
