@@ -8,8 +8,8 @@ defmodule NavigationHistory do
 
   ## Examples:
 
-      NavigationHistory.last_path(conn) # returns the last path vissited
-      NavigationHistory.last_path(conn, 1) # returns the second last path vissited
+      NavigationHistory.last_path(conn) # returns the last path visited
+      NavigationHistory.last_path(conn, 1) # returns the second last path visited
       NavigationHistory.last_path(conn, default: "/")  # returns the last path and default to "/" if none available
       NavigationHistory.last_path(conn, key: "admin") # returns the last path tracked by tracker with key "admin"
   """
