@@ -5,11 +5,17 @@ defmodule NavigationHistoryTest do
   test "last_path when empty" do
     conn = conn(:get, "/") |> with_session
     refute NavigationHistory.last_path(conn)
+
+    session = get_session(conn)
+    refute NavigationHistory.last_path(session)
   end
 
   test "last_path default" do
     conn = conn(:get, "/") |> with_session
     assert NavigationHistory.last_path(conn, default: "/foo") == "/foo"
+
+    session = get_session(conn)
+    assert NavigationHistory.last_path(session, default: "/foo") == "/foo"
   end
 
   test "put path" do
@@ -22,6 +28,10 @@ defmodule NavigationHistoryTest do
     conn = NavigationHistory.Tracker.call(conn, opts)
     assert NavigationHistory.last_path(conn) == "/foo"
     assert NavigationHistory.last_paths(conn) == ["/foo", "/"]
+
+    session = get_session(conn)
+    assert NavigationHistory.last_path(session) == "/foo"
+    assert NavigationHistory.last_paths(session) == ["/foo", "/"]
   end
 
   test "repeatedly putting path only puts unique path once" do
@@ -42,7 +52,7 @@ defmodule NavigationHistoryTest do
 
   test "repeatedly putting path with option puts path multiple times" do
     conn = conn(:get, "/") |> with_session
-    opts = NavigationHistory.Tracker.init([accept_duplicates: true])
+    opts = NavigationHistory.Tracker.init(accept_duplicates: true)
     conn = NavigationHistory.Tracker.call(conn, opts)
     assert NavigationHistory.last_path(conn) == "/"
 
@@ -64,6 +74,12 @@ defmodule NavigationHistoryTest do
     assert NavigationHistory.last_path(conn, 1) == "/"
     refute NavigationHistory.last_path(conn, 2)
     assert NavigationHistory.last_path(conn, 2, default: "/bar") == "/bar"
+
+    session = get_session(conn)
+    assert NavigationHistory.last_path(session) == "/foo"
+    assert NavigationHistory.last_path(session, 1) == "/"
+    refute NavigationHistory.last_path(session, 2)
+    assert NavigationHistory.last_path(session, 2, default: "/bar") == "/bar"
   end
 
   test "path with query parameters" do
@@ -74,6 +90,10 @@ defmodule NavigationHistoryTest do
     conn = NavigationHistory.Tracker.call(conn, opts)
     assert NavigationHistory.last_path(conn, 1) == "/foo?bar=baz"
     assert NavigationHistory.last_path(conn) == "/admin/?hi=there&another=value"
+
+    session = get_session(conn)
+    assert NavigationHistory.last_path(session, 1) == "/foo?bar=baz"
+    assert NavigationHistory.last_path(session) == "/admin/?hi=there&another=value"
   end
 
   test "key" do
@@ -87,11 +107,19 @@ defmodule NavigationHistoryTest do
     assert NavigationHistory.last_paths(conn) == ["/"]
     assert NavigationHistory.last_path(conn, key: "other") == "/foo"
     assert NavigationHistory.last_paths(conn, key: "other") == ["/foo"]
+
+    session = get_session(conn)
+    assert NavigationHistory.last_paths(session) == ["/"]
+    assert NavigationHistory.last_path(session, key: "other") == "/foo"
+    assert NavigationHistory.last_paths(session, key: "other") == ["/foo"]
   end
 
   test "included_paths" do
     conn = conn(:get, "/") |> with_session
-    opts = NavigationHistory.Tracker.init(excluded_paths: ["/admin"], included_paths: [~r(/admin.*)])
+
+    opts =
+      NavigationHistory.Tracker.init(excluded_paths: ["/admin"], included_paths: [~r(/admin.*)])
+
     conn = NavigationHistory.Tracker.call(conn, opts)
     refute NavigationHistory.last_path(conn)
 
@@ -108,6 +136,7 @@ defmodule NavigationHistoryTest do
     conn = %{conn | request_path: "/login"}
     conn = NavigationHistory.Tracker.call(conn, opts)
     assert NavigationHistory.last_paths(conn) == ["/"]
+
     conn = %{conn | request_path: "/admin/dashboard"}
     conn = NavigationHistory.Tracker.call(conn, opts)
     assert NavigationHistory.last_paths(conn) == ["/"]
