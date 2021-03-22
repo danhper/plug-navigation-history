@@ -6,10 +6,18 @@ defmodule NavigationHistory.Session do
   @default_key "default"
   @paths_delimiter "|"
 
-  def fetch_paths(conn, opts \\ []) do
-    if paths = get_session(conn, key(opts)),
-      do: String.split(paths, @paths_delimiter),
-      else: []
+  def fetch_paths(conn_or_session, opts \\ [])
+
+  def fetch_paths(%Plug.Conn{} = conn, opts) do
+    conn
+    |> get_session(key(opts))
+    |> paths_list()
+  end
+
+  def fetch_paths(%{} = session, opts) do
+    session
+    |> Map.get(key(opts), nil)
+    |> paths_list()
   end
 
   def save_paths(conn, paths, opts),
@@ -17,4 +25,7 @@ defmodule NavigationHistory.Session do
 
   def key(opts),
     do: "#{@session_key_prefix}#{opts[:key] || @default_key}"
+
+  defp paths_list(nil), do: []
+  defp paths_list(path), do: String.split(path, @paths_delimiter)
 end

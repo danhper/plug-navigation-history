@@ -38,6 +38,7 @@ NavigationHistory.last_path(conn) # will return the last navigated path or nil
 NavigationHistory.last_path(conn, 1) # will return the second last navigated path
 NavigationHistory.last_path(conn, default: "/") # will return the last path or "/"
 NavigationHistory.last_paths(conn) # will return a list of the last navigated paths
+NavigationHistory.last_path(session) # instead of passing a conn, can also pass a session
 ```
 
 For example, to redirect the user to the last navigated path in Phoenix, you can use
