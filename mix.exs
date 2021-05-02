@@ -1,41 +1,52 @@
 defmodule NavigationHistory.Mixfile do
   use Mix.Project
 
+  @source_url "https://github.com/tuvistavie/plug-navigation-history"
   @version "0.3.0"
 
   def project do
-    [app: :navigation_history,
-     name: "navigation_history",
-     version: @version,
-     source_url: "https://github.com/tuvistavie/plug-navigation-history",
-     homepage_url: "https://github.com/tuvistavie/plug-navigation-history",
-     package: package(),
-     elixir: "~> 1.0",
-     description: description(),
-     build_embedded: Mix.env == :prod,
-     start_permanent: Mix.env == :prod,
-     license: "MIT",
-     deps: deps()]
+    [
+      app: :navigation_history,
+      name: "navigation_history",
+      version: @version,
+      elixir: "~> 1.0",
+      build_embedded: Mix.env() == :prod,
+      start_permanent: Mix.env() == :prod,
+      package: package(),
+      deps: deps(),
+      docs: docs()
+    ]
   end
 
   defp package do
-    [files: ["lib", "mix.exs", "LICENSE", "README.md"],
-     maintainers: ["Daniel Perez"],
-     licenses: ["MIT"],
-     links: %{"GitHub" => "https://github.com/tuvistavie/plug-navigation-history"}]
-  end
-
-  defp description do
-    "Navigation history tracking plug"
+    [
+      description: "Navigation history tracking plug",
+      files: ["lib", "mix.exs", "LICENSE", "README.md"],
+      maintainers: ["Daniel Perez"],
+      licenses: ["MIT"],
+      links: %{"GitHub" => @source_url}
+    ]
   end
 
   def application do
-    [applications: [:logger]]
+    [
+      applications: [:logger]
+    ]
   end
 
   defp deps do
-    [{:plug, "~> 1.1"},
-     {:earmark, "~> 1.2", only: :dev},
-     {:ex_doc, "~> 0.11", only: :dev}]
+    [
+      {:plug, "~> 1.1"},
+      {:ex_doc, ">= 0.0.0", only: :dev, runtime: false}
+    ]
+  end
+
+  defp docs do
+    [
+      extras: [{:"LICENSE", [title: "License"]}, "README.md"],
+      main: "readme",
+      source_url: @source_url,
+      formatters: ["html"]
+    ]
   end
 end

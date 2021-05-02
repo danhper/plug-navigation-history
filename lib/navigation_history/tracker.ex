@@ -10,28 +10,27 @@ defmodule NavigationHistory.Tracker do
 
   ## Options
 
-    * `excluded_paths` - The list of paths which should not be tracked.
+    * `:excluded_paths` - The list of paths which should not be tracked.
         For example, `/login` or similar for a lot of apps.
         Defaults to `[]`
-    * `included_paths` - Limits list the paths to be tracked when set.
-        `excluded_paths` is ignored if set.
-    * `methods` - The list methods which should be tracked.
+    * `:included_paths` - Limits list the paths to be tracked when set.
+        `:excluded_paths` is ignored if set.
+    * `:methods` - The list methods which should be tracked.
         Defaults to `["GET"]`
-    * `history_size` - The number of history entries to track in `last_paths`.
+    * `:history_size` - The number of history entries to track in `last_paths`.
         Defaults to `10`.
-    * `key` - The key used to track the navigation.
-        It can also be passed to `last_path` and `last_paths` to retrieve the paths for the
+    * `:key` - The key used to track the navigation.
+        It can also be passed to `:last_path` and `:last_paths` to retrieve the paths for the
         relevant key.
         Defaults to `"default"`.
-    * `accept_duplicates` - By default, if the same URL is repeated, it is ignored, unless this
+    * `:accept_duplicates` - By default, if the same URL is repeated, it is ignored, unless this
         option is set to `true`.
         Defaults to `false`.
 
   ## Examples
 
-    ```elixir
-    plug NavigationHistory.Tracker, excluded_paths: ["/login", ~r(/admin.*)], history_size: 5
-    ```
+      plug NavigationHistory.Tracker, excluded_paths: ["/login", ~r(/admin.*)], history_size: 5
+
   """
 
   @behaviour Plug

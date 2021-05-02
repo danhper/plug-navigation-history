@@ -1,4 +1,11 @@
-# NavigationHistory [![Build Status](https://travis-ci.org/danhper/plug-navigation-history.svg)](https://travis-ci.org/danhper/plug-navigation-history) [![Hex Version](http://img.shields.io/hexpm/v/navigation_history.svg?style=flat)](https://hex.pm/packages/navigation_history) [![Hex docs](http://img.shields.io/badge/hex.pm-docs-green.svg?style=flat)](https://hexdocs.pm/navigation_history/SecurePassword.html)
+# NavigationHistory
+
+[![Build Status](https://travis-ci.org/danhper/plug-navigation-history.svg)](https://travis-ci.org/danhper/plug-navigation-history)
+[![Module Version](https://img.shields.io/hexpm/v/navigation_history.svg)](https://hex.pm/packages/navigation_history)
+[![Hex Docs](https://img.shields.io/badge/hex-docs-lightgreen.svg)](https://hexdocs.pm/navigation_history/)
+[![Total Download](https://img.shields.io/hexpm/dt/navigation_history.svg)](https://hex.pm/packages/navigation_history)
+[![License](https://img.shields.io/hexpm/l/navigation_history.svg)](https://github.com/danhper/plug_navigation_history/blob/master/LICENSE)
+[![Last Updated](https://img.shields.io/github/last-commit/danhper/plug-navigation-history.svg)](https://github.com/danhper/plug-navigation-history/commits/master)
 
 A plug to keep track of user navigation history using sessions.
 This can be useful for example to redirect the user back to the previous page,
@@ -7,11 +14,13 @@ authenticated.
 
 ## Installation
 
-Add `navigation_history` to your list of dependencies in `mix.exs`:
+Add `:navigation_history` to your list of dependencies in `mix.exs`:
 
 ```elixir
 def deps do
-  [{:navigation_history, "~> 0.3"}]
+  [
+    {:navigation_history, "~> 0.4"}
+  ]
 end
 ```
 
@@ -77,7 +86,7 @@ There are a few options that can be used with the plug:
       Defaults to `false`.
 
 
-### Example
+### Examples
 
 ```elixir
 plug NavigationHistory.Tracker, excluded_paths: ["/login", ~r(/admin.*)]
@@ -87,3 +96,9 @@ plug NavigationHistory.Tracker, included_paths: [~r(/admin.*)], key: "admin", hi
 NavigationHistory.last_path(conn) # from default history
 NavigationHistory.last_path(conn, key: "admin") # from admin history
 ```
+
+## Copyright and License
+
+Copyright (c) 2016 Daniel Perez
+
+Released under the MIT License, which can be found in the repository in [LICENSE](./LICENSE).
