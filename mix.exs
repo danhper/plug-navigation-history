@@ -30,7 +30,7 @@ defmodule NavigationHistory.Mixfile do
 
   def application do
     [
-      applications: [:logger]
+      applications: ~w[logger plug]a
     ]
   end
 
