@@ -1,6 +1,6 @@
 # NavigationHistory
 
-[![Build Status](https://travis-ci.org/danhper/plug-navigation-history.svg)](https://travis-ci.org/danhper/plug-navigation-history)
+![Build status](https://github.com/danhper/plug-navigation-history/actions/workflows/ci.yml/badge.svg)
 [![Module Version](https://img.shields.io/hexpm/v/navigation_history.svg)](https://hex.pm/packages/navigation_history)
 [![Hex Docs](https://img.shields.io/badge/hex-docs-lightgreen.svg)](https://hexdocs.pm/navigation_history/)
 [![Total Download](https://img.shields.io/hexpm/dt/navigation_history.svg)](https://hex.pm/packages/navigation_history)
