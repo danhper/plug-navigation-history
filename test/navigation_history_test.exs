@@ -1,6 +1,7 @@
 defmodule NavigationHistoryTest do
   use ExUnit.Case, async: true
-  use Plug.Test
+  import Plug.Conn
+  import Plug.Test
 
   test "last_path when empty" do
     conn = conn(:get, "/") |> with_session
