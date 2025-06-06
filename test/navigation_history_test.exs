@@ -20,13 +20,10 @@ defmodule NavigationHistoryTest do
   end
 
   test "put path" do
-    conn = conn(:get, "/") |> with_session
-    opts = NavigationHistory.Tracker.init([])
-    conn = NavigationHistory.Tracker.call(conn, opts)
+    conn = conn(:get, "/") |> with_session |> NavigationHistory.Tracker.track_history()
     assert NavigationHistory.last_path(conn) == "/"
 
-    conn = %{conn | request_path: "/foo"}
-    conn = NavigationHistory.Tracker.call(conn, opts)
+    conn = %{conn | request_path: "/foo"} |> NavigationHistory.Tracker.track_history()
     assert NavigationHistory.last_path(conn) == "/foo"
     assert NavigationHistory.last_paths(conn) == ["/foo", "/"]
 

@@ -51,6 +51,11 @@ defmodule NavigationHistory.Tracker do
       else: conn
   end
 
+  def track_history(conn, opts \\ []) do
+    opts = init(opts)
+    call(conn, opts)
+  end
+
   defp path_and_query(conn) do
     query_portion = if (conn.query_string == ""), do: "", else: "?#{conn.query_string}"
     conn.request_path <> query_portion

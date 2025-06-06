@@ -97,6 +97,18 @@ NavigationHistory.last_path(conn) # from default history
 NavigationHistory.last_path(conn, key: "admin") # from admin history
 ```
 
+Since OTP 28, regular expressions are not supported at compile time, so you need to initialize the tracker at runtime.
+This can be done with the following code:
+
+```elixir
+plug :track_history
+
+defp track_history(conn, opts) do
+  opts = Keyword.put(opts, :excluded_paths, ["/login", ~r(/admin.*)])
+  NavigationHistory.Tracker.track_history(conn, opts)
+end
+```
+
 ## Copyright and License
 
 Copyright (c) 2016 Daniel Perez
