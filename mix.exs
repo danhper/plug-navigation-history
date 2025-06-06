@@ -1,4 +1,4 @@
-defmodule NavigationHistory.Mixfile do
+defmodule NavigationHistory.MixProject do
   use Mix.Project
 
   @source_url "https://github.com/tuvistavie/plug-navigation-history"
@@ -30,20 +30,20 @@ defmodule NavigationHistory.Mixfile do
 
   def application do
     [
-      applications: ~w[logger plug]a
+      extra_applications: [:logger, :plug]
     ]
   end
 
   defp deps do
     [
       {:plug, "~> 1.1"},
-      {:ex_doc, ">= 0.0.0", only: :dev, runtime: false}
+      {:ex_doc, "~> 0.34", only: :dev, runtime: false, warn_if_outdated: true}
     ]
   end
 
   defp docs do
     [
-      extras: [{:"LICENSE", [title: "License"]}, "README.md"],
+      extras: [{:LICENSE, [title: "License"]}, "README.md"],
       main: "readme",
       source_url: @source_url,
       formatters: ["html"]
